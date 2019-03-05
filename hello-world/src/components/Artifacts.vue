@@ -25,15 +25,14 @@ export default {
     getArtifacts() {
       apiService.getLatestArtifacts().then(artifactJson => {
         var subprojects = ["tally", "sgi"];
-        var save_this = this;
-        subprojects.forEach(function(el) {
+        this.badge_urls = subprojects.map(function(el) {
           var p = artifactJson.data.find(function(p) {
             return (
               p.path ==
               "root/project/coverage-reports/" + el + "/htmlcov/coverage.svg"
             );
           });
-          save_this.badge_urls.push({ name: el, url: p.url });
+          return { name: el, url: p.url };
         });
       });
     }

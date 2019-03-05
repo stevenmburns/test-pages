@@ -19,9 +19,7 @@ export default {
   components: {},
   data() {
     return {
-      badge_urls: [],
-      badge_url_tally: "",
-      badge_url_sgi: ""
+      badge_urls: []
     };
   },
   methods: {
@@ -32,8 +30,7 @@ export default {
             p.path == "root/project/coverage-reports/tally/htmlcov/coverage.svg"
           );
         });
-        this.badge_url_tally = p.url;
-        this.badge_urls.push(p.url);
+        this.badge_urls.push({ name: "tally", url: p.url });
       });
       apiService.getLatestArtifacts().then(artifactJson => {
         var p = artifactJson.data.find(function(p) {
@@ -41,23 +38,15 @@ export default {
             p.path == "root/project/coverage-reports/sgi/htmlcov/coverage.svg"
           );
         });
-        this.badge_url_sgi = p.url;
-        this.badge_urls.push(p.url);
+        this.badge_urls.push({ name: "sgi", url: p.url });
       });
     }
   },
   computed: {
-    badge_img_html_tally: function() {
-      return "<img src=" + this.badge_urls[0] + "></>";
-    },
-    badge_img_html_sgi: function() {
-      return "<img src=" + this.badge_urls[1] + "></>";
-    },
     badge_img_htmls: function() {
-      return [
-        { name: "tally", img_html: this.badge_img_html_tally },
-        { name: "sgi", img_html: this.badge_img_html_sgi }
-      ];
+      return this.badge_urls.map(function(obj) {
+        return { name: obj.name, img_html: "<img src=" + obj.url + "></>" };
+      });
     }
   },
   mounted() {

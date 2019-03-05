@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Circle CI Artifacts</h1>
+    <h1>circleci-test</h1>
     <div v-for="(el,idx) in badge_img_htmls" :key="idx">
       {{ el.name }}
       <span v-html="el.img_html"></span>

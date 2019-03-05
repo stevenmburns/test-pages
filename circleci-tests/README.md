@@ -1,4 +1,4 @@
-# hello-world
+# circleci-test
 
 ## Project setup
 ```

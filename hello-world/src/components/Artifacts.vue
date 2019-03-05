@@ -5,7 +5,6 @@
       {{ el.name }}
       <span v-html="el.img_html"></span>
     </div>
-    <div>{{ badge_urls[0] }} {{ badge_urls[1] }}</div>
   </div>
 </template>
 
@@ -25,20 +24,17 @@ export default {
   methods: {
     getArtifacts() {
       apiService.getLatestArtifacts().then(artifactJson => {
-        var p = artifactJson.data.find(function(p) {
-          return (
-            p.path == "root/project/coverage-reports/tally/htmlcov/coverage.svg"
-          );
+        var subprojects = ["tally", "sgi"];
+        var save_this = this;
+        subprojects.forEach(function(el) {
+          var p = artifactJson.data.find(function(p) {
+            return (
+              p.path ==
+              "root/project/coverage-reports/" + el + "/htmlcov/coverage.svg"
+            );
+          });
+          save_this.badge_urls.push({ name: el, url: p.url });
         });
-        this.badge_urls.push({ name: "tally", url: p.url });
-      });
-      apiService.getLatestArtifacts().then(artifactJson => {
-        var p = artifactJson.data.find(function(p) {
-          return (
-            p.path == "root/project/coverage-reports/sgi/htmlcov/coverage.svg"
-          );
-        });
-        this.badge_urls.push({ name: "sgi", url: p.url });
       });
     }
   },

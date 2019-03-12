@@ -24,7 +24,7 @@ export default {
   methods: {
     getArtifacts() {
       apiService.getLatestArtifacts().then(artifactJson => {
-        var subprojects = ["tally", "sgi"];
+        var subprojects = ["tally", "sgi", "enumerate"];
         this.badge_urls = subprojects.map(function(el) {
           var p = artifactJson.data.find(function(p) {
             return (

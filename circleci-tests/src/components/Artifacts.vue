@@ -32,7 +32,13 @@ export default {
               "root/project/coverage-reports/" + el + "/htmlcov/coverage.svg"
             );
           });
-          return { name: el, url: p.url };
+          var q = artifactJson.data.find(function(p) {
+            return (
+              p.path ==
+              "root/project/coverage-reports/" + el + "/htmlcov/index.html"
+            );
+          });
+          return { name: el, url: p.url, index: q.url };
         });
       });
     }
@@ -40,7 +46,11 @@ export default {
   computed: {
     badge_img_htmls: function() {
       return this.badge_urls.map(function(obj) {
-        return { name: obj.name, img_html: "<img src=" + obj.url + "></>" };
+        return {
+          name: obj.name,
+          img_html:
+            "<a href=" + obj.index + ">" + "<img src=" + obj.url + "></a>"
+        };
       });
     }
   },
